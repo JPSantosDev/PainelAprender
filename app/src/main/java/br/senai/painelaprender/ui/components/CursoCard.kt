@@ -17,12 +17,11 @@ import br.senai.painelaprender.ui.theme.Typography
 fun CursoCard(
     modifier:Modifier = Modifier,
     curso: Curso,
-    onCardClick: () -> Unit
-
+    onCardClick: (Int) -> Unit
 ){
     Card(modifier
         .fillMaxWidth()
-        .clickable(onClick = onCardClick)) {
+        .clickable(onClick = {onCardClick})) {
         Column(modifier
             .fillMaxWidth()
             .padding(16.dp)) {

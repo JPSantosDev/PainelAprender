@@ -21,7 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.senai.painelaprender.ui.components.CursoCard
+import br.senai.painelaprender.ui.navigation.Routes
 import br.senai.painelaprender.ui.viewmodel.CursoViewModel
 
 
@@ -30,7 +33,9 @@ import br.senai.painelaprender.ui.viewmodel.CursoViewModel
 @Composable
 fun CursoScreen(
     modifier: Modifier = Modifier,
-    viewModel: CursoViewModel = viewModel()
+    viewModel: CursoViewModel = viewModel(),
+    onCardClick: (Int) -> Unit
+
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -75,7 +80,7 @@ fun CursoScreen(
                         contentPadding = PaddingValues(16.dp)
                     ) {
                         items(uiState.cursos) { curso ->
-                            CursoCard(curso = curso)
+                            CursoCard(curso = curso, onCardClick = onCardClick )
                         }
                     }
                 }
@@ -89,5 +94,6 @@ fun CursoScreen(
 @Preview
 
 fun CursoPreview(){
-    CursoScreen()
+    val navController = rememberNavController()
+    CursoScreen(navController = navController, onCardClick = {})
 }
