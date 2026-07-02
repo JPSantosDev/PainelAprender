@@ -43,6 +43,13 @@ class CursoViewModel : ViewModel(){
         }
         atualizarEstado(cursosFiltrados)
     }
+
+    fun carregarCursoPorId(id: Int){
+        val cursoEncontrado = cursosOriginal.find { it.id == id}
+        _uiState.update {
+            it.copy(cursoSelecionado = cursoEncontrado)
+        }
+    }
     fun atualizarEstado(list: List<Curso>){
         _uiState.update {
             it.copy(

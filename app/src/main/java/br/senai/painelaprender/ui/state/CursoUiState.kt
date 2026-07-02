@@ -6,5 +6,6 @@ data class CursoUiState(
     val isLoading: Boolean = false,
     val isEmpty: Boolean = false,
     val cursos: List<Curso> = emptyList(),
-    val textoBusca: String = ""
+    val textoBusca: String = "",
+    val cursoSelecionado:Curso? = null
 )

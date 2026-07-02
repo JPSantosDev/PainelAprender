@@ -80,7 +80,8 @@ fun CursoScreen(
                         contentPadding = PaddingValues(16.dp)
                     ) {
                         items(uiState.cursos) { curso ->
-                            CursoCard(curso = curso, onCardClick = onCardClick )
+                            CursoCard(curso = curso, onCardClick = {onCardClick(curso.id)}
+                            )
                         }
                     }
                 }
@@ -94,6 +95,5 @@ fun CursoScreen(
 @Preview
 
 fun CursoPreview(){
-    val navController = rememberNavController()
-    CursoScreen(navController = navController, onCardClick = {})
+    CursoScreen(onCardClick = {})
 }
