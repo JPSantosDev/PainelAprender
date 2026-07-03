@@ -1,10 +1,12 @@
 package br.senai.painelaprender.ui.viewmodel
 
+import androidx.core.graphics.convertTo
 import androidx.lifecycle.ViewModel
 import br.senai.painelaprender.ui.state.CursoUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import androidx.lifecycle.viewModelScope
+import br.senai.painelaprender.ui.enum.CursoStatus
 import br.senai.painelaprender.ui.model.Curso
 import br.senai.painelaprender.ui.repository.CursoRepositoryFake
 import kotlinx.coroutines.flow.update
@@ -28,20 +30,32 @@ class CursoViewModel : ViewModel(){
             cursosOriginal = cursos
 
             atualizarEstado(cursos)
+            onFiltroChange(novoTexto = "", novoStatus = CursoStatus.TODOS)
 
         }
     }
-    fun onTextoBuscaChange(novoTexto: String){
+    fun onFiltroChange(novoTexto: String, novoStatus: CursoStatus?,){
+        val cursosFiltrados = executarFiltros(novoTexto,novoStatus)
 
-        _uiState.update { it.copy(textoBusca = novoTexto) }
+        val quantCursos = cursosFiltrados.size
+        val quantEmAndamento = cursosFiltrados.count{it.status == CursoStatus.EM_ANDAMENTO}
+        val quantConcluida = cursosFiltrados.count{it.status == CursoStatus.CONCLUIDO}
+        val mediaProgresso = if (cursosOriginal.isNotEmpty()){
+            cursosOriginal.map { it.progresso }.average()
+        }
+        else 0.0
 
-        val cursosFiltrados = if(novoTexto.isBlank()) {
-            cursosOriginal
-        }
-        else{
-            cursosOriginal.filter { curso -> curso.nome.contains(novoTexto, ignoreCase = true) || curso.categoria.contains(novoTexto, ignoreCase = true)}
-        }
-        atualizarEstado(cursosFiltrados)
+        _uiState.update { it.copy(
+            isLoading = false,
+            isEmpty = cursosFiltrados.isEmpty(),
+            cursos = cursosFiltrados,
+            cursosEmAndamento = quantEmAndamento,
+            totalCurso = quantCursos,
+            cursosConcluidos = quantConcluida,
+            mediaProgresso = mediaProgresso,
+            statusSelecionado = novoStatus,
+            textoBusca = novoTexto
+        ) }
     }
 
     fun carregarCursoPorId(id: Int){
@@ -58,6 +72,17 @@ class CursoViewModel : ViewModel(){
                 cursos = list
             )
         }
+    }
+
+    fun executarFiltros(novoTexto: String, novoStatus: CursoStatus?): List<Curso>{
+        val cursoFiltradoBusca = cursosOriginal.filter {  if(novoTexto.toIntOrNull() != null) it.id == novoTexto.toInt() else it.nome.contains(novoTexto,ignoreCase = true) || it.categoria.contains(novoTexto, ignoreCase = true) }
+        val cursoFiltradoStatus =
+            if(novoStatus == CursoStatus.TODOS){
+                cursoFiltradoBusca
+            }
+            else {cursoFiltradoBusca.filter { it.status == novoStatus }}
+
+        return cursoFiltradoStatus
     }
 
     init {

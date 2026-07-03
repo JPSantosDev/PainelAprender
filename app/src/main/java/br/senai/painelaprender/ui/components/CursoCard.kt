@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.painelaprender.ui.enum.CursoStatus
 import br.senai.painelaprender.ui.model.Curso
 import br.senai.painelaprender.ui.theme.Typography
 
@@ -21,7 +22,7 @@ fun CursoCard(
 ){
     Card(modifier
         .fillMaxWidth()
-        .clickable(onClick = {onCardClick})) {
+        .clickable(onClick = {onCardClick(curso.id)})) {
         Column(modifier
             .fillMaxWidth()
             .padding(16.dp)) {
@@ -32,8 +33,6 @@ fun CursoCard(
             Text(text = curso.id.toString(),
                 style = Typography.bodyMedium)
 
-            Text(text = curso.cargaHoraria.toString(),
-                style = Typography.bodyMedium)
 
             Text(text = curso.categoria,
                 style = Typography.bodySmall)
@@ -45,7 +44,13 @@ fun CursoCard(
 @Composable
 fun CursoCardPreview(){
     CursoCard(
-        curso = Curso("Android",1,20,"sim"),
+        curso = Curso(
+            id = 1,
+            nome = "Fundamentos de Android",
+            categoria = "Mobile",
+            status = CursoStatus.CONCLUIDO,
+            progresso = 100
+        ),
         onCardClick = {}
     )
 }

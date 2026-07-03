@@ -1,9 +1,13 @@
 package br.senai.painelaprender.ui.model
 
+import br.senai.painelaprender.ui.enum.CursoStatus
+
 data class Curso(
-    val nome: String,
+
     val id: Int,
-    val cargaHoraria: Int,
+    val nome: String,
     val categoria: String,
+    val status: CursoStatus,
+    val progresso:Int,
 
 )

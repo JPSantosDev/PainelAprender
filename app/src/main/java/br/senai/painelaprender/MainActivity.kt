@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import br.senai.painelaprender.ui.navigation.NavHostGraph
 import br.senai.painelaprender.ui.screens.CursoScreen
 import br.senai.painelaprender.ui.theme.PainelAprenderTheme
 
@@ -16,11 +19,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             PainelAprenderTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CursoScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NavHostGraph(navController = navController, modifier = Modifier.padding(innerPadding))
                 }
             }
         }
