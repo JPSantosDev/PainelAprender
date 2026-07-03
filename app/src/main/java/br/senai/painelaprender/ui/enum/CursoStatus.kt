@@ -5,5 +5,4 @@ enum class CursoStatus(val label:String) {
     EM_ANDAMENTO("Em Andamento"),
     CONCLUIDO("Concluído"),
     NAO_INICIADO("Não Iniciado")
-
 }

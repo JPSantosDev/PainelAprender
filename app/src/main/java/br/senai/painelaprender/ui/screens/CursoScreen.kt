@@ -45,8 +45,6 @@ fun CursoScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-
-
     Column(
         modifier = modifier.fillMaxSize().padding(top = 14.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
@@ -60,6 +58,7 @@ fun CursoScreen(
                 modifier = modifier.padding(10.dp)
             )
         }
+
         Row(modifier = Modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState()),
