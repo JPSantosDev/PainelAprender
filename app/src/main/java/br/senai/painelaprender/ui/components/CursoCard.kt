@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,11 +32,13 @@ fun CursoCard(
                 style = Typography.titleLarge
             )
             Text(text = curso.id.toString(),
-                style = Typography.bodyMedium)
-
+                style = Typography.bodyLarge)
 
             Text(text = curso.categoria,
-                style = Typography.bodySmall)
+                style = Typography.bodyMedium)
+
+            Text(text = "Progresso: %.2f%%".format(curso.progresso.toFloat()), style = Typography.bodySmall)
+            LinearProgressIndicator(progress = curso.progresso/100f, modifier = Modifier.fillMaxWidth())
         }
     }
 }

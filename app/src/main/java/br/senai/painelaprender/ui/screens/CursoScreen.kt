@@ -28,7 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.painelaprender.ui.components.CursoCard
+import br.senai.painelaprender.ui.components.PainelResumo
 import br.senai.painelaprender.ui.enum.CursoStatus
+import br.senai.painelaprender.ui.theme.Typography
 import br.senai.painelaprender.ui.viewmodel.CursoViewModel
 
 
@@ -44,9 +46,12 @@ fun CursoScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
 
+
     Column(
         modifier = modifier.fillMaxSize().padding(top = 14.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
+        Text("Painel Aprender+", style = Typography.titleLarge)
+        PainelResumo(uiState)
         if (!uiState.isLoading || !uiState.isEmpty) {
             OutlinedTextField(
                 value = uiState.textoBusca,

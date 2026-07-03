@@ -57,7 +57,6 @@ class CursoViewModel : ViewModel(){
             textoBusca = novoTexto
         ) }
     }
-
     fun carregarCursoPorId(id: Int){
         val cursoEncontrado = cursosOriginal.find { it.id == id}
         _uiState.update {
@@ -73,7 +72,6 @@ class CursoViewModel : ViewModel(){
             )
         }
     }
-
     fun executarFiltros(novoTexto: String, novoStatus: CursoStatus?): List<Curso>{
         val cursoFiltradoBusca = cursosOriginal.filter {  if(novoTexto.toIntOrNull() != null) it.id == novoTexto.toInt() else it.nome.contains(novoTexto,ignoreCase = true) || it.categoria.contains(novoTexto, ignoreCase = true) }
         val cursoFiltradoStatus =
