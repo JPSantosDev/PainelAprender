@@ -29,9 +29,9 @@ fun PainelResumo(
         Card(modifier = Modifier.weight(1f)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(16.dp)
                     .fillMaxWidth()) {
-                Text("Total: ",
+                Text("Total:",
                     style = Typography.bodySmall)
                 Text("${uiState.totalCurso}",
                     style = Typography.titleMedium)
@@ -41,9 +41,9 @@ fun PainelResumo(
         Card(modifier = Modifier.weight(1f)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(16.dp)
                     .fillMaxWidth()) {
-                Text("Concluídos: ",
+                Text("Concluídos:",
                     style = Typography.bodySmall)
                 Text("${uiState.cursosConcluidos}",
                     style = Typography.titleMedium)
@@ -53,9 +53,9 @@ fun PainelResumo(
         Card(modifier = Modifier.weight(1f)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(0.dp,16.dp,)
                     .fillMaxWidth()) {
-                Text("Em Andamento: ",
+                Text("Em Andamento:",
                     style = Typography.bodySmall)
                 Text("${uiState.cursosEmAndamento}",
                     style = Typography.titleMedium)
@@ -67,7 +67,7 @@ fun PainelResumo(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()) {
-                Text("Média de Progresso: ",
+                Text("Média de Progresso:",
                     style = Typography.bodySmall)
                 Text("%.2f%%".format(uiState.mediaProgresso),
                     style = Typography.titleMedium)

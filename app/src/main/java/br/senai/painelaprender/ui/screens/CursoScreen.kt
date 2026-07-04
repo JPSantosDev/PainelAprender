@@ -14,9 +14,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,16 +49,20 @@ fun CursoScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
-        modifier = modifier.fillMaxSize().padding(top = 14.dp),
+        modifier = Modifier.fillMaxSize().padding(top = 14.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text("Painel Aprender+", style = Typography.titleLarge)
+        IconButton(onClick = {viewModel.carregarCurso()}) {
+            Icon(imageVector = Icons.Default.Refresh, contentDescription = "Recarregar")
+        }
         PainelResumo(uiState)
+
         if (!uiState.isLoading || !uiState.isEmpty) {
             OutlinedTextField(
                 value = uiState.textoBusca,
                 onValueChange = { novoTexto -> viewModel.onFiltroChange(novoTexto,uiState.statusSelecionado) },
-                label = { Text("Pesquisar Cursos") },
-                modifier = modifier.padding(10.dp)
+                label = { Text("Buscar Cursos") },
+                modifier = Modifier.padding(10.dp)
             )
         }
 
@@ -70,7 +77,7 @@ fun CursoScreen(
                     selected = uiState.statusSelecionado == status,
                     onClick = {viewModel.onFiltroChange(uiState.textoBusca,status)},
                     label = {Text(text = status.label)},
-                    leadingIcon = { Icon(imageVector = Icons.Default.Check, contentDescription = "") }
+                    leadingIcon = { if(uiState.statusSelecionado == status) Icon(imageVector = Icons.Default.Check, contentDescription = "") }
                 )
             }
         }
@@ -78,7 +85,7 @@ fun CursoScreen(
         when {
             uiState.isLoading -> {
                 Box(
-                    modifier = modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()
@@ -87,17 +94,29 @@ fun CursoScreen(
 
             uiState.isEmpty -> {
                 Box(
-                    modifier = modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
-                ) {
+                    ) {
                     Text(text = "Não há cursos cadastrados")
+                }
+            }
+
+            uiState.isError -> {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(text = "Falha ao carregar os cursos.", style = Typography.bodyMedium)
+                    Button(onClick = { viewModel.carregarCurso() }) {
+                        Text("Tentar novamente")
+                    }
                 }
             }
 
             else -> {
 
                 Column(
-                    modifier = modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
